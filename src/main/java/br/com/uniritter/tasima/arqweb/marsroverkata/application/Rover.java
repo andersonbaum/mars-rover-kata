@@ -5,6 +5,7 @@ import br.com.uniritter.tasima.arqweb.marsroverkata.domain.CommandService;
 public class Rover {
 
     private CommandService commandService;
+
     public void setCommandService(CommandService value) {
         commandService = value;
     }

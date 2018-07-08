@@ -15,23 +15,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CommandServiceTest {
 
     private CommandService commandService;
-    private TerrainModel x;
-    private TerrainModel y;
+    private TerrainModel xPosition;
+    private TerrainModel yPosition;
     private List<ObstacleModel> obstacleModels;
     private final Compass compass = Compass.NORTH;
 
     @Before
-    public void beforeCoordinatesTest() {
-        x = new TerrainModel(1, 99);
-        y = new TerrainModel(2, 99);
-        obstacleModels = Arrays.asList(new ObstacleModel(20, 20), new ObstacleModel(30, 30));
-        commandService = new CommandService(x, y, compass, obstacleModels);
+    public void setTest() {
+        xPosition = new TerrainModel(1, 11);
+        yPosition = new TerrainModel(1, 11);
+        obstacleModels = Arrays.asList(new ObstacleModel(3, 3), new ObstacleModel(6, 4));
+        commandService = new CommandService(xPosition, yPosition, compass, obstacleModels);
     }
 
     @Test
     public void newInstanceShouldSetXAndYParams() {
-        assertThat(commandService.getX()).isEqualToComparingFieldByField(x);
-        assertThat(commandService.getY()).isEqualToComparingFieldByField(y);
+        assertThat(commandService.getX()).isEqualToComparingFieldByField(xPosition);
+        assertThat(commandService.getY()).isEqualToComparingFieldByField(yPosition);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class CommandServiceTest {
 
     @Test
     public void moveForwardShouldIncreaseYWhenDirectionIsNorth() {
-        TerrainModel expected = new TerrainModel(y.getLocation() + 1, y.getMaxLocation());
+        TerrainModel expected = new TerrainModel(yPosition.getLocation() + 1, yPosition.getMaxLocation());
         commandService.setCompass(Compass.NORTH);
         commandService.moveForward();
         assertThat(commandService.getY()).isEqualToComparingFieldByField(expected);
@@ -54,7 +54,7 @@ public class CommandServiceTest {
 
     @Test
     public void moveForwardShouldIncreaseXWhenDirectionIsEast() {
-        TerrainModel expected = new TerrainModel(x.getLocation() + 1, x.getMaxLocation());
+        TerrainModel expected = new TerrainModel(xPosition.getLocation() + 1, xPosition.getMaxLocation());
         commandService.setCompass(Compass.EAST);
         commandService.moveForward();
         assertThat(commandService.getX()).isEqualToComparingFieldByField(expected);
@@ -62,7 +62,7 @@ public class CommandServiceTest {
 
     @Test
     public void moveForwardShouldDecreaseYWhenDirectionIsSouth() {
-        TerrainModel expected = new TerrainModel(y.getLocation() - 1, y.getMaxLocation());
+        TerrainModel expected = new TerrainModel(yPosition.getLocation() - 1, yPosition.getMaxLocation());
         commandService.setCompass(Compass.SOUTH);
         commandService.moveForward();
         assertThat(commandService.getY()).isEqualToComparingFieldByField(expected);
@@ -70,7 +70,7 @@ public class CommandServiceTest {
 
     @Test
     public void moveForwardShouldDecreaseXWhenDirectionIsWest() {
-        TerrainModel expected = new TerrainModel(x.getLocation() - 1, x.getMaxLocation());
+        TerrainModel expected = new TerrainModel(xPosition.getLocation() - 1, xPosition.getMaxLocation());
         commandService.setCompass(Compass.WEST);
         commandService.moveForward();
         assertThat(commandService.getX()).isEqualToComparingFieldByField(expected);
@@ -78,16 +78,16 @@ public class CommandServiceTest {
 
     @Test
     public void moveForwardShouldNotChangeLocationsWhenObstacleIsFound() {
-        int expected = x.getLocation();
+        int expected = xPosition.getLocation();
         commandService.setCompass(Compass.EAST);
-        commandService.setObstacleModels(Arrays.asList(new ObstacleModel(x.getLocation() + 1, y.getLocation())));
+        commandService.setObstacleModels(Arrays.asList(new ObstacleModel(xPosition.getLocation() + 1, yPosition.getLocation())));
         commandService.move(commandService.getCompass());
         assertThat(commandService.getX().getLocation()).isEqualTo(expected);
     }
 
     @Test
     public void moveBackwardShouldDecreaseYWhenDirectionIsNorth() {
-        TerrainModel expected = new TerrainModel(y.getLocation() - 1, y.getMaxLocation());
+        TerrainModel expected = new TerrainModel(yPosition.getLocation() - 1, yPosition.getMaxLocation());
         commandService.setCompass(Compass.NORTH);
         commandService.moveBackward();
         assertThat(commandService.getY()).isEqualToComparingFieldByField(expected);
@@ -95,7 +95,7 @@ public class CommandServiceTest {
 
     @Test
     public void moveBackwardShouldDecreaseXWhenDirectionIsEast() {
-        TerrainModel expected = new TerrainModel(x.getLocation() - 1, x.getMaxLocation());
+        TerrainModel expected = new TerrainModel(xPosition.getLocation() - 1, xPosition.getMaxLocation());
         commandService.setCompass(Compass.EAST);
         commandService.moveBackward();
         assertThat(commandService.getX()).isEqualToComparingFieldByField(expected);
@@ -103,7 +103,7 @@ public class CommandServiceTest {
 
     @Test
     public void moveBackwardShouldIncreaseYWhenDirectionIsSouth() {
-        TerrainModel expected = new TerrainModel(y.getLocation() + 1, y.getMaxLocation());
+        TerrainModel expected = new TerrainModel(yPosition.getLocation() + 1, yPosition.getMaxLocation());
         commandService.setCompass(Compass.SOUTH);
         commandService.moveBackward();
         assertThat(commandService.getY()).isEqualToComparingFieldByField(expected);
@@ -111,7 +111,7 @@ public class CommandServiceTest {
 
     @Test
     public void moveBackwardShouldIncreaseXWhenDirectionIsWest() {
-        TerrainModel expected = new TerrainModel(x.getLocation() + 1, x.getMaxLocation());
+        TerrainModel expected = new TerrainModel(xPosition.getLocation() + 1, xPosition.getMaxLocation());
         commandService.setCompass(Compass.WEST);
         commandService.moveBackward();
         assertThat(commandService.getX()).isEqualToComparingFieldByField(expected);
@@ -119,7 +119,7 @@ public class CommandServiceTest {
 
     @Test
     public void toStringShouldReturnXAndY() {
-        String expected = x.getLocation() + " X " + y.getLocation() + " " + compass.getShortName();
+        String expected = xPosition.getLocation() + " X " + yPosition.getLocation() + " " + compass.getShortName();
         assertThat(commandService.toString()).isEqualTo(expected);
     }
 

@@ -19,10 +19,11 @@ public class LoadFile {
         StringBuffer stringBuffer = new StringBuffer();
         String line = null;
 
-        while((line =bufferedReader.readLine())!=null){
-
+        while((line =bufferedReader. readLine())!=null){
             stringBuffer.append(line).append("\n");
         }
-        System.out.println(stringBuffer);
+        char x = stringBuffer.charAt(0);
+        char y = stringBuffer.charAt(1);
+        StringBuffer commands = stringBuffer.delete(0,2);
     }
 }
